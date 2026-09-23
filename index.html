@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="/assets/icon.png">
   <title>Welcome</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +22,7 @@
       }
     };
   </script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="bg-bg text-ink font-sans leading-relaxed antialiased">
@@ -43,7 +44,9 @@
     <section class="grid md:grid-cols-[220px_1fr] gap-10 md:gap-14 items-start mb-20">
       <div
         class="aspect-[4/5] max-w-[220px] border border-dashed border-line bg-raised flex items-center justify-center text-center p-4 font-mono text-[0.72rem] text-dim">
-        Add your photo here<br>(replace this box with an &lt;img&gt; tag)</div>
+        <img src="/assets/image.png" alt="Your photo"
+          class="aspect-[4/5] max-w-[220px] w-full object-cover border border-line" />
+      </div>
       <div>
         <h1 class="font-serif font-medium text-[2rem] leading-tight mb-5 max-w-[22ch]">I build things from the machine
           up -- audit ledgers by day, kernels by night.</h1>
@@ -184,7 +187,7 @@
     <footer class="border-t border-line pt-5 pb-10 font-mono text-[0.72rem] text-dim">Shahriar Dhrubo — Chattogram,
       Bangladesh</footer>
   </div>
-  <script src="script.js"></script>
+  <script src="scripts/script.js"></script>
 </body>
 
 </html>
