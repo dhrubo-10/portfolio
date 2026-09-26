@@ -1,63 +1,444 @@
-:root { --accent:#c98a3d; --line:#2a2d30; --ink:#e9e6df; --dim:#9a9690; --bg:#101214; --raised:#16191c; }
-::selection { background:var(--accent); color:var(--bg); }
-:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+:root {
+  --accent: #c98a3d;
+  --line: #2a2d30;
+  --ink: #e9e6df;
+  --dim: #9a9690;
+  --bg: #101214;
+  --raised: #16191c;
+}
 
-.logo svg { position:absolute; left:0; bottom:-6px; width:100%; height:10px; overflow:visible; }
-.logo path { fill:none; stroke:var(--accent); stroke-width:1.6; stroke-dasharray:220; stroke-dashoffset:220; animation:draw 1.4s .3s ease forwards; }
-@keyframes draw { to { stroke-dashoffset:0; } }
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
 
-.clink { border-bottom:1px solid var(--line); padding-bottom:2px; transition:border-color .2s, color .2s; }
-.clink:hover { border-color:var(--accent); color:var(--accent); }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 
-.tree { position:relative; display:flex; justify-content:center; min-width:720px; padding:4px 0; }
-.tree .branch { display:flex; flex-direction:column; align-items:center; }
-.tree .kids { display:flex; align-items:flex-start; gap:1rem; margin-top:3.5rem; }
-.tree > .branch > .kids { gap:2.5rem; }
-.tree .links { position:absolute; inset:0; pointer-events:none; overflow:visible; }
-.tree .links path { fill:none; stroke:var(--line); stroke-width:1.5; transition:stroke .25s; }
-.tree .links path.on { stroke:var(--accent); }
-.tree .links.draw path { stroke-dasharray:1; stroke-dashoffset:1; animation:draw-link 1s ease forwards; }
-@keyframes draw-link { to { stroke-dashoffset:0; } }
+.logo svg {
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 10px;
+  overflow: visible;
+}
 
-.tnode { position:relative; z-index:1; max-width:7.5rem; padding:.5rem .8rem; text-align:center; cursor:pointer;
-  background:var(--bg); color:var(--dim); border:1px solid var(--line); border-radius:8px;
-  font:400 .8rem/1.3 'IBM Plex Sans',sans-serif; transition:border-color .2s, color .2s, background .2s; }
-.tnode i { display:block; font:500 .68rem 'IBM Plex Mono',monospace; font-style:normal; color:var(--accent); margin-bottom:2px; }
-.tnode:hover { color:var(--ink); border-color:var(--dim); }
-.tnode.on { color:var(--ink); border-color:var(--accent); }
-.tnode.sel { background:var(--accent); border-color:var(--accent); color:var(--bg); }
-.tnode.sel i { color:var(--bg); }
-.tnode.root { padding:.6rem 1.1rem; font:italic 500 1.05rem Fraunces,serif; }
+.logo path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: draw 1.4s .3s ease forwards;
+}
 
-#detail .k { display:block; font:400 .75rem 'IBM Plex Mono',monospace; color:var(--accent); margin-bottom:.5rem; }
-#detail h3 { font:500 1.3rem Fraunces,serif; margin:0 0 .6rem; }
-#detail p { margin:0; color:#c9c6bf; max-width:60ch; }
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
 
-#desk .s { fill:none; stroke:var(--dim); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s, fill .2s; }
-#desk .dimmed { stroke:var(--line); }
-#desk .code { fill:none; stroke:var(--line); stroke-width:3; stroke-linecap:round; }
-#desk .keys { fill:none; stroke:var(--line); stroke-width:6; stroke-dasharray:9 5; }
-#desk .case { stroke:var(--line); pointer-events:none; }
-#desk .part { cursor:pointer; outline:none; }
-#desk .part .s { fill:rgba(255,255,255,0); }               /* fill so the whole shape is hoverable */
-#desk .part:hover .s, #desk .part:focus-visible .s, #desk .part.open .s { stroke:var(--accent); }
-#desk .part:hover .s:not(.dimmed), #desk .part.open .s:not(.dimmed) { fill:rgba(201,138,61,.07); }
-#desk .part:hover .code, #desk .part.open .code { stroke:var(--accent); opacity:.5; }
+.clink {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+  transition: border-color .2s, color .2s;
+}
 
-.spec { position:absolute; top:0; left:0; z-index:5; width:17rem; padding:1rem 1.1rem; pointer-events:none;
-  background:var(--raised); border:1px solid var(--accent); border-radius:8px; }
-.spec[hidden] { display:none; }
-.spec::before { content:''; position:absolute; top:50%; width:14px; height:1px; background:var(--accent); }
-.spec[data-side="r"]::before { left:-14px; }
-.spec[data-side="l"]::before { right:-14px; }
-.spec .k { display:block; font:400 .72rem 'IBM Plex Mono',monospace; color:var(--accent); margin-bottom:.25rem; }
-.spec h4 { font:500 1.05rem Fraunces,serif; margin:0 0 .6rem; }
-.spec dl { margin:0; }
-.spec .row { display:flex; justify-content:space-between; gap:1rem; padding:.35rem 0; border-top:1px solid var(--line); font-size:.82rem; }
-.spec dt { color:var(--dim); }
-.spec dd { margin:0; text-align:right; color:var(--ink); }
-.spec .todo { color:var(--dim); font-style:italic; }
+.clink:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tree {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-width: 720px;
+  padding: 4px 0;
+}
+
+.tree .branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tree .kids {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 3.5rem;
+}
+
+.tree>.branch>.kids {
+  gap: 2.5rem;
+}
+
+.tree .links {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.tree .links path {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.5;
+  transition: stroke .25s;
+}
+
+.tree .links path.on {
+  stroke: var(--accent);
+}
+
+.tree .links.draw path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-link 1s ease forwards;
+}
+
+@keyframes draw-link {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.tnode {
+  position: relative;
+  z-index: 1;
+  max-width: 7.5rem;
+  padding: .5rem .8rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--dim);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: 400 .8rem/1.3 'IBM Plex Sans', sans-serif;
+  transition: border-color .2s, color .2s, background .2s;
+}
+
+.tnode i {
+  display: block;
+  font: 500 .68rem 'IBM Plex Mono', monospace;
+  font-style: normal;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+
+.tnode:hover {
+  color: var(--ink);
+  border-color: var(--dim);
+}
+
+.tnode.on {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.tnode.sel {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.tnode.sel i {
+  color: var(--bg);
+}
+
+.tnode.root {
+  padding: .6rem 1.1rem;
+  font: italic 500 1.05rem Fraunces, serif;
+}
+
+#detail .k {
+  display: block;
+  font: 400 .75rem 'IBM Plex Mono', monospace;
+  color: var(--accent);
+  margin-bottom: .5rem;
+}
+
+#detail h3 {
+  font: 500 1.3rem Fraunces, serif;
+  margin: 0 0 .6rem;
+}
+
+#detail p {
+  margin: 0;
+  color: #c9c6bf;
+  max-width: 60ch;
+}
+
+#desk .s {
+  fill: none;
+  stroke: var(--dim);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke .2s, fill .2s;
+}
+
+#desk .dimmed {
+  stroke: var(--line);
+}
+
+#desk .code {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+#desk .keys {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 6;
+  stroke-dasharray: 9 5;
+}
+
+#desk .case {
+  stroke: var(--line);
+  pointer-events: none;
+}
+
+#desk .part {
+  cursor: pointer;
+  outline: none;
+}
+
+#desk .part .s {
+  fill: rgba(255, 255, 255, 0);
+}
+
+/* fill so the whole shape is hoverable */
+#desk .part:hover .s,
+#desk .part:focus-visible .s,
+#desk .part.open .s {
+  stroke: var(--accent);
+}
+
+#desk .part:hover .s:not(.dimmed),
+#desk .part.open .s:not(.dimmed) {
+  fill: rgba(201, 138, 61, .07);
+}
+
+#desk .part:hover .code,
+#desk .part.open .code {
+  stroke: var(--accent);
+  opacity: .5;
+}
+
+.spec {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 17rem;
+  padding: 1rem 1.1rem;
+  pointer-events: none;
+  background: var(--raised);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+}
+
+.spec[hidden] {
+  display: none;
+}
+
+.spec::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.spec[data-side="r"]::before {
+  left: -14px;
+}
+
+.spec[data-side="l"]::before {
+  right: -14px;
+}
+
+.spec .k {
+  display: block;
+  font: 400 .72rem 'IBM Plex Mono', monospace;
+  color: var(--accent);
+  margin-bottom: .25rem;
+}
+
+.spec h4 {
+  font: 500 1.05rem Fraunces, serif;
+  margin: 0 0 .6rem;
+}
+
+.spec dl {
+  margin: 0;
+}
+
+.spec .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .35rem 0;
+  border-top: 1px solid var(--line);
+  font-size: .82rem;
+}
+
+.spec dt {
+  color: var(--dim);
+}
+
+.spec dd {
+  margin: 0;
+  text-align: right;
+  color: var(--ink);
+}
+
+.spec .todo {
+  color: var(--dim);
+  font-style: italic;
+}
+
+.spec .hint {
+  margin-top: .7rem;
+  padding-top: .6rem;
+  border-top: 1px solid var(--line);
+  font: 400 .74rem 'IBM Plex Mono', monospace;
+  color: var(--accent);
+}
+
+.spec .hint::after {
+  content: ' →';
+}
+
+
+.shell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background: #0b0d0e;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: min(16rem, 92vw);
+  min-height: 11rem;
+  box-shadow: 0 0 0 3px rgba(201, 138, 61, .12);
+}
+
+.shell[hidden] {
+  display: none;
+}
+
+.shell-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .6rem;
+  background: var(--raised);
+  border-bottom: 1px solid var(--line);
+}
+
+.shell-dots {
+  display: flex;
+  gap: .3rem;
+}
+
+.shell-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  display: block;
+}
+
+.shell-title {
+  font: 400 .72rem 'IBM Plex Mono', monospace;
+  color: var(--dim);
+  margin-right: auto;
+}
+
+.shell-close {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: .1rem .3rem;
+}
+
+.shell-close:hover {
+  color: var(--accent);
+}
+
+.shell-out {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: .6rem .7rem;
+  font: 400 .78rem/1.5 'IBM Plex Mono', monospace;
+}
+
+.shell-out .ln {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--ink);
+}
+
+.shell-out .cmd {
+  color: var(--dim);
+}
+
+.shell-out .cmd::before {
+  content: 'dhrubo@site:~$ ';
+  color: var(--accent);
+}
+
+.shell-out .err {
+  color: #c96a4a;
+}
+
+.shell-in {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .5rem .7rem;
+  border-top: 1px solid var(--line);
+  font: 400 .78rem 'IBM Plex Mono', monospace;
+}
+
+.shell-prompt {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.shell-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font: inherit;
+  caret-color: var(--accent);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .logo path, .tree .links.draw path { animation:none; stroke-dashoffset:0; }
+
+  .logo path,
+  .tree .links.draw path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
