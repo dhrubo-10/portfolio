@@ -48,13 +48,17 @@
           class="aspect-[4/5] max-w-[220px] w-full object-cover border border-line" />
       </div>
       <div>
-        <h1 class="font-serif font-medium text-[2rem] leading-tight mb-5 max-w-[22ch]">I build things from the machine
-          up -- audit ledgers by day, kernels by night.</h1>
-        <p class="max-w-[56ch] text-soft mb-3.5">I'm pursuing a BBA in Accounting at IIUC while going deep on systems
-          programming: C, Linux internals, kernel modules, and my own x86 kernel, <em>baSic_</em>. On the side I build
-          for the web with Django, Flask and JavaScript, and I'm teaching myself the math behind machine learning.</p>
-        <p class="max-w-[56ch] text-soft">Based in Chattogram, Bangladesh trying to turn a strange mix of accounting,
-          software and systems into an actual career.</p>
+        <h1 class="font-serif font-medium text-[2rem] leading-tight mb-5 max-w-[22ch]">Building at the intersection of
+          finance, software and systems.</h1>
+        <p class="max-w-[56ch] text-soft mb-3.5">I'm studying Accounting at IIUC, but most of my free time goes into
+          figuring out how computers work under the hood. I spend a lot of time with C, Linux internals, kernel modules,
+          and <em>baSic_</em>, my own x86 kernel. I also build web stuff with Django, Flask, and JavaScript, and lately
+          I've been working through the math behind machine learning.</p>
+
+        <p class="max-w-[56ch] text-soft">I'm based in Chattogram, Bangladesh. My background is a little unusual.
+          accounting on one side, systems programming on the other and I'm figuring out where I can take that
+          combination.</p>
+
       </div>
     </section>
 
@@ -110,6 +114,7 @@
         <svg id="desk" viewBox="0 0 1000 520" class="w-full h-auto" role="group" aria-label="Illustrated desk setup">
           <g class="part" data-part="speakers" tabindex="0" aria-label="Speakers">
             <rect class="s" x="30" y="70" width="70" height="120" rx="10" />
+            <rect id="screen" class="s dimmed" x="264" y="64" width="422" height="222" rx="4" />
             <circle class="s" cx="65" cy="98" r="9" />
             <circle class="s" cx="65" cy="150" r="24" />
             <rect class="s" x="120" y="70" width="70" height="120" rx="10" />
@@ -171,6 +176,19 @@
           </g>
         </svg>
         <div id="spec" class="spec" role="tooltip" hidden></div>
+        <div id="shell" class="shell" role="dialog" aria-label="Terminal" hidden>
+          <div class="shell-bar">
+            <span class="shell-dots"><i></i><i></i><i></i></span>
+            <span class="shell-title">dhrubo@site:~</span>
+            <button type="button" id="shellClose" class="shell-close" aria-label="Close terminal">×</button>
+          </div>
+          <div id="shellOut" class="shell-out"></div>
+          <div class="shell-in">
+            <span class="shell-prompt">dhrubo@site:~$</span>
+            <input id="shellInput" class="shell-input" type="text" autocomplete="off" autocapitalize="off"
+              spellcheck="false" aria-label="Terminal input">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -184,7 +202,13 @@
       </div>
     </section>
 
-    <footer class="border-t border-line pt-5 pb-10 font-mono text-[0.72rem] text-dim">© 2026 Shahriar Dhrubo</footer>
+    <footer class="border-t border-line pt-5 pb-10 font-mono text-[0.72rem] text-dim">
+      © 2026 Shahriar Dhrubo
+      <div class="mt-2">
+        <span>$ uptime</span>
+        <div id="uptime" class="text-accent"></div>
+      </div>
+    </footer>
   </div>
   <script src="scripts/script.js"></script>
 </body>
