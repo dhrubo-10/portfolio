@@ -143,8 +143,9 @@
     function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
     function show(part) {
         var d = SPECS[part.dataset.part]; if (!d) return;
+        var hint = part.dataset.part === 'monitor' ? '<div class="hint">click to open shell</div>' : '';
         card.innerHTML = '<span class="k">' + esc(d.k) + '</span><h4>' + esc(d.t) + '</h4><dl>' +
-            d.rows.map(function (r) { return '<div class="row"><dt>' + esc(r[0]) + '</dt><dd' + (r[1] ? '>' + esc(r[1]) : ' class="todo">add yours') + '</dd></div>'; }).join('') + '</dl>';
+            d.rows.map(function (r) { return '<div class="row"><dt>' + esc(r[0]) + '</dt><dd' + (r[1] ? '>' + esc(r[1]) : ' class="todo">add yours') + '</dd></div>'; }).join('') + '</dl>' + hint;
         card.hidden = false;
         var w = scene.getBoundingClientRect(), r = part.getBoundingClientRect(), cw = card.offsetWidth, ch = card.offsetHeight;
         var side = 'r', x = r.right - w.left + 14;
@@ -162,10 +163,70 @@
         p.addEventListener('blur', hide);
         p.addEventListener('click', function (e) {          // tap for touchscreens
             e.stopPropagation();
+            if (p.dataset.part === 'monitor') { hide(); openShell(); return; }
             if (openPart === p) { hide(); return; }
             hide(); openPart = p; p.classList.add('open'); show(p);
         });
     });
-    document.addEventListener('click', hide);
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+    document.addEventListener('click', function (e) {
+        hide();
+        if (!shell.hidden && !shell.contains(e.target)) closeShell();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        if (!shell.hidden) { closeShell(); return; }
+        hide();
+    });
+
+    var PROJECTS = ['baSic_/', 'FORGE/', 'embedded-stm32/', 'web-freelance/'];
+    var shell = $('#shell'), shellOut = $('#shellOut'), shellIn = $('#shellInput'), screenEl = $('#screen');
+
+    function shLine(text, cls) {
+        var l = document.createElement('div'); l.className = 'ln' + (cls ? ' ' + cls : ''); l.textContent = text; shellOut.appendChild(l);
+    }
+    function runCmd(raw) {
+        var cmd = raw.trim(), low = cmd.toLowerCase();
+        var l = document.createElement('div'); l.className = 'ln cmd'; l.textContent = cmd; shellOut.appendChild(l);
+        if (low === 'help') shLine('commands: whoami, ls, cat about.txt, forge log, clear, exit');
+        else if (low === 'whoami') shLine('shahriar dhrubo — self-taught systems programmer, chattogram, bd');
+        else if (low === 'ls' || low === 'ls projects' || low === 'ls -la') shLine(PROJECTS.join('  '));
+        else if (low === 'cat about.txt') shLine('BBA student in accounting, self-taught in C and OS internals. Building an x86 kernel (baSic_) and freelancing full-stack on the side.');
+        else if (low === 'forge log') {
+            shLine('commit a91f2e0 (HEAD -> main)');
+            shLine('Author: dhrubo <sdhrubo770@gmail.com>');
+            shLine('');
+            shLine('    fix: stopped losing commits to my own bugs');
+        }
+        else if (low === 'clear') shellOut.innerHTML = '';
+        else if (low === 'exit') { closeShell(); return; }
+        else if (low !== '') shLine('bash: ' + cmd.split(' ')[0] + ': command not found', 'err');
+        shellOut.scrollTop = shellOut.scrollHeight;
+    }
+    function positionShell() {
+        var w = scene.getBoundingClientRect(), r = screenEl.getBoundingClientRect();
+        shell.style.width = r.width + 'px'; shell.style.height = r.height + 'px';
+        shell.style.transform = 'translate(' + (r.left - w.left) + 'px,' + (r.top - w.top) + 'px)';
+    }
+    function openShell() {
+        shell.hidden = false; positionShell();
+        if (!shellOut.childElementCount) shLine('baSic_ shell — type "help" to get started.');
+        shellIn.value = ''; shellIn.focus();
+    }
+    function closeShell() { shell.hidden = true; }
+    shellIn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && shellIn.value.trim() !== '') { runCmd(shellIn.value); shellIn.value = ''; }
+    });
+    $('#shellClose').addEventListener('click', function (e) { e.stopPropagation(); closeShell(); });
+    window.addEventListener('resize', function () { if (!shell.hidden) positionShell(); });
+
+
+    var LAUNCH_DATE = new Date('2026-09-23T00:00:00+06:00');
+    var upEl = $('#uptime');
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tickUptime() {
+        var s = Math.max(0, Math.floor((Date.now() - LAUNCH_DATE) / 1000));
+        var days = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+        upEl.textContent = 'up ' + days + (days === 1 ? ' day, ' : ' days, ') + pad(h) + ':' + pad(m) + ':' + pad(sec);
+    }
+    tickUptime(); setInterval(tickUptime, 1000);
 })();
